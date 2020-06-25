@@ -18,7 +18,7 @@ def generate_barplot(dataframe, column_name, title=None):
     No return. Genera el diagrama
     '''
     plt.title(title or column_name)
-    sns.countplot(dataframe[column_name])
+    sns.countplot(dataframe[column_name], order=dataframe[column_name].value_counts().index)
     plt.xlabel('')
     plt.ylabel('Cantidad')
     plt.xticks(rotation=45)
@@ -145,3 +145,32 @@ def plot_validation_curve(model_type, X, y, k_values):
     plt.ylim(0, 1)
     plt.xlabel('degree')
     plt.ylabel('score')
+
+def get_haversine_distance(lat1, lon1, lat2, lon2):
+    EARTH_RATIO= 6471 
+    rad_lat1, rad_lat2=np.radians(lat1), np.radians(lat2)
+    delta_lat=np.radians(lat2-lat1)    
+    delta_lon=np.radians(lon2-lon1)    
+    cos_lat1,cos_lat2=np.cos(rad_lat1), np.cos(rad_lat2)
+    data =(np.sin(delta_lat/2)**2)+cos_lat1*cos_lat2*(np.sin(delta_lon/2)**2)
+    distance= 2*EARTH_RATIO*np.arcsin(np.sqrt(data))
+    return distance
+
+def get_nearest_apartments(dataframe, lat, lon, n=3):
+    '''
+    Funcion que retorna un dataframe con las n propiedades mas cercanas a una ubicacion dadas sus coordenadas
+    Parameters:
+    -> dataframe: DataFrame de Pandas, debe contener las columnas 'lat' y 'lon'.
+    -> lat: Latitud
+    -> lon: Longitud
+    -> n: Numero de propiedades a buscar, por defecto n=3
+    
+    Return:
+    Retorna un dataframe filtrado.
+    
+    Ejemplo:
+    get_nearest_apartments(data, -34.6037389, -58.3837591)
+    '''
+    local_df=dataframe.copy()
+    local_df['distance (km)']=local_df[['lat','lon']].apply(lambda x:get_haversine_distance(x[0], x[1], lat, lon), axis=1)
+    return local_df.nsmallest(n, 'distance (km)')
