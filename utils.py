@@ -8,14 +8,14 @@ from sklearn.metrics import mean_squared_error
 
 def generate_barplot(dataframe, column_name, title=None, annotations = False):
     '''
-    Genera diagrama de barras para una variable categorica
+    Genera diagrama de barras para una variable categórica
 
     Parameters
     
     >> dataframe: Dataframe de Pandas
     >> column_name: Columna a diagramar
-    >> title: Titulo personalizado del grafico. Por defecto, es el mismo nombre de la columna del dataframe
-    >> annotations: Ver anotaciones sobre cada barra, por defecto Falso.
+    >> title: Título personalizado del gráfico. Por defecto, es el mismo nombre de la columna del dataframe
+    >> annotations: Ver anotaciones sobre cada barra, por defecto False.
     
     Return
     
@@ -71,7 +71,7 @@ def plot_distribution(column_name, max_pivot, dataframe, title=None, min_pivot=0
 
 def split_barplot(column_name, dataframe, partitions=2):
     '''
-    Funcion para graficar diagramas de barras con numerosas categorias
+    Función para graficar diagramas de barras con numerosas categorías
     
     Parameters:
     
@@ -99,7 +99,7 @@ def split_barplot(column_name, dataframe, partitions=2):
 
 def plot_price_by_period(dataframe):
     '''
-    Funcion para graficar un lineplot de Seaborn del precio por periodo
+    Función para graficar un lineplot de Seaborn del precio por periodo
     
     Parameters:
     
@@ -109,7 +109,7 @@ def plot_price_by_period(dataframe):
     plot_price_by_period(data_filtered)
     '''
     plt.figure(figsize=(15,5))
-    plt.title('Evolucion Precio/Periodo')
+    plt.title('Evolución Precio/Periodo')
     sns.lineplot(x='period', y='price', data=dataframe, hue='property_type')
     lg=plt.legend(loc='upper left', bbox_to_anchor=(-.1, 1.25), ncol=4, fontsize='small')
     lg.texts[0].set_text('Tipo de propiedad:')
@@ -119,7 +119,7 @@ def plot_price_by_period(dataframe):
     
 def plot_heatmaps(dataframe):
     '''
-    Funcion para graficar un HeatMap basado en las correlaciones de Pearson y Spearman.
+    Función para graficar un HeatMap basado en las correlaciones de Pearson y Spearman.
     
     Parameters:
     -> dataframe: DataFrame de Pandas.
@@ -139,15 +139,15 @@ def plot_heatmaps(dataframe):
 
 def plot_rmse_curve(model_type, X_train, X_test, y_train, y_test, k_values):
     '''
-    Grafica la curva de errores RMSE para KNN o Arboles de decision.
+    Grafica la curva de errores RMSE para KNN o Árboles de decisión.
     
     Parameters:
     
     -> model_type: String "knn" o "tree"
     -> X_train: Conjunto de datos de entrenamiento
     -> y_train: Variable objetivo de entrenamiento
-    -> X_test: Conjunto de datos de validacion
-    -> y_test: Variable objetivo de validacion
+    -> X_test: Conjunto de datos de validación
+    -> y_test: Variable objetivo de validación
     -> k_values: Array de numeros enteros.
     
     Returns:
@@ -177,17 +177,17 @@ def plot_rmse_curve(model_type, X_train, X_test, y_train, y_test, k_values):
     
 def plot_validation_curve(model_type, X, y, k_values):
     '''
-    Grafica la curva de validacion para KNN o Arboles de decision.
+    Grafica la curva de validación para KNN o Árboles de decisión.
     
     Parameters:
     
     -> model_type: String "knn" o "tree"
     -> X: Dataframe con dimensiones de estudio
     -> y: Variable objetivo de entrenamiento.
-    -> k_values: Array de numeros enteros.
+    -> k_values: Array de números enteros.
     
     Returns:
-    Curva de validacion
+    Curva de validación
     '''
     validation_curve_model= validation_curve(DecisionTreeRegressor(), X, y, param_name="max_depth", param_range= k_values, cv=10, n_jobs=-1)
     if (model_type=='knn'):
@@ -227,13 +227,13 @@ def get_haversine_distance(lat1, lon1, lat2, lon2):
 
 def get_nearest_apartments(dataframe, lat, lon, n=3):
     '''
-    Funcion que retorna un dataframe con las n propiedades mas cercanas a una ubicacion dadas sus coordenadas.
+    Función que retorna un dataframe con las n propiedades más cercanas a una ubicación dadas sus coordenadas.
     
     Parameters:
     -> dataframe: DataFrame de Pandas, debe contener las columnas 'lat' y 'lon'.
     -> lat: Latitud
     -> lon: Longitud
-    -> n: Numero de propiedades a buscar, por defecto n=3
+    -> n: Número de propiedades a buscar, por defecto n=3
     
     Return:
     Retorna un dataframe filtrado.
@@ -256,11 +256,11 @@ def plot_errors_distribution(models_name, models_object, X_train, y_train, X_tes
     -> models_object: Lista de objetos de tipo modelos de regresion.
     -> X_train: Conjunto de datos de entrenamiento
     -> y_train: Variable objetivo de entrenamiento
-    -> X_test: Conjunto de datos de validacion
-    -> y_test: Variable objetivo de validacion
+    -> X_test: Conjunto de datos de validación
+    -> y_test: Variable objetivo de validación
     
     Return:
-    Reporte
+    Resumen
     
     '''
     for model_name, model_obj in zip(models_name, models_object):
